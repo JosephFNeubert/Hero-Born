@@ -4,17 +4,24 @@ using UnityEngine;
 
 public class PlayerBehavior : MonoBehaviour
 {
+    public GameBehavior gameManager;
+
     public float moveSpeed = 10f;
     public float rotateSpeed = 75f;
     private float vInput;
     private float hInput;
+
     private Rigidbody _rb;
+
+    public GameObject Bullet;
+    public float bulletSpeed = 100f;
 
 
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameBehavior>();
     }
 
 
@@ -23,6 +30,11 @@ public class PlayerBehavior : MonoBehaviour
     {
         vInput = Input.GetAxis("Vertical") * moveSpeed;
         hInput = Input.GetAxis("Horizontal") * rotateSpeed;
+
+        if (gameManager.isAlive == false)
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
 
@@ -33,5 +45,13 @@ public class PlayerBehavior : MonoBehaviour
         Quaternion angleRot = Quaternion.Euler(rotation * Time.fixedDeltaTime);
         _rb.MovePosition(this.transform.position + this.transform.forward * vInput * Time.fixedDeltaTime);
         _rb.MoveRotation(_rb.rotation * angleRot);
+
+        if (Input.GetMouseButtonDown(0) && gameManager.Ammo > 0)
+        {
+            GameObject newBullet = Instantiate(Bullet, this.transform.position + new Vector3(1, 0, 0), this.transform.rotation) as GameObject;
+            Rigidbody bulletRB = newBullet.GetComponent<Rigidbody>();
+            bulletRB.velocity = this.transform.forward * bulletSpeed;
+            gameManager.Ammo -= 1;
+        }
     }
 }
