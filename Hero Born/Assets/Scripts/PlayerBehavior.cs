@@ -14,7 +14,7 @@ public class PlayerBehavior : MonoBehaviour
     private Rigidbody _rb;
 
     public GameObject Bullet;
-    public float bulletSpeed = 100f;
+    public float bulletSpeed = 20f;
 
 
     // Start is called before the first frame update
@@ -52,6 +52,15 @@ public class PlayerBehavior : MonoBehaviour
             Rigidbody bulletRB = newBullet.GetComponent<Rigidbody>();
             bulletRB.velocity = this.transform.forward * bulletSpeed;
             gameManager.Ammo -= 1;
+        }
+    }
+
+    // Checks for collision
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Enemy")
+        {
+            gameManager.HP -= 1;
         }
     }
 }
