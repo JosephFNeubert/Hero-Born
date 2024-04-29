@@ -52,6 +52,8 @@ public class PlayerBehavior : MonoBehaviour
             Rigidbody bulletRB = newBullet.GetComponent<Rigidbody>();
             bulletRB.velocity = this.transform.forward * bulletSpeed;
             gameManager.Ammo -= 1;
+            AudioSource gunshot = GetComponent<AudioSource>();
+            gunshot.Play();
         }
     }
 

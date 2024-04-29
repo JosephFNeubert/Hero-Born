@@ -27,33 +27,42 @@ public class GameBehavior : MonoBehaviour
         }
     }
 
+    public void win()
+    {
+        SceneManager.LoadScene(2);
+        Time.timeScale = 0f;
+    }
+
     void OnGUI()
     {
-        GUI.Box(new Rect(20, 20, 150, 25), "Player Health: " + _playerHP);
-        GUI.Box(new Rect(20, 50, 150, 25), "Ammo: " + _ammoCount);
-
-        if (GUI.Button(new Rect(Screen.width - 50, Screen.height - 50, 50, 50), "Pause"))
+        if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            if(!pause)
+            GUI.Box(new Rect(20, 20, 150, 25), "Player Health: " + _playerHP);
+            GUI.Box(new Rect(20, 50, 150, 25), "Ammo: " + _ammoCount);
+
+            if (GUI.Button(new Rect(Screen.width - 50, Screen.height - 50, 50, 50), "Pause"))
+            {
+                if (!pause)
+                {
+                    Time.timeScale = 0f;
+                    pause = true;
+                }
+                else
+                {
+                    Time.timeScale = 1.0f;
+                    pause = false;
+                }
+            }
+
+            if (!isAlive)
             {
                 Time.timeScale = 0f;
-                pause = true;
-            }
-            else
-            {
-                Time.timeScale = 1.0f;
-                pause = false;
-            }
-        }
-
-        if (!isAlive)
-        {
-            Time.timeScale = 0f;
-            if(GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height / 2 - 50, 200, 100), "You died. Click to restart."))
-            {
-                Time.timeScale = 1.0f;
-                isAlive = true;
-                SceneManager.LoadScene(0);
+                if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height / 2 - 50, 200, 100), "You died. Click to restart."))
+                {
+                    Time.timeScale = 1.0f;
+                    isAlive = true;
+                    SceneManager.LoadScene(0);
+                }
             }
         }
     }
