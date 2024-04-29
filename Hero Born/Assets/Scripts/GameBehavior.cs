@@ -32,7 +32,7 @@ public class GameBehavior : MonoBehaviour
         GUI.Box(new Rect(20, 20, 150, 25), "Player Health: " + _playerHP);
         GUI.Box(new Rect(20, 50, 150, 25), "Ammo: " + _ammoCount);
 
-        if (GUI.Button(new Rect(Screen.width - 50, 0, 50, 50), "Pause"))
+        if (GUI.Button(new Rect(Screen.width - 50, Screen.height - 50, 50, 50), "Pause"))
         {
             if(!pause)
             {
